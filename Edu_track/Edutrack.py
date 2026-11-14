@@ -124,7 +124,8 @@ class StudentManager:
             print("Error: could not save the data file.")
             return False
 
-# ---------- TEMPORARY TEST (delete in Step 10) ----------
+#temporary test data till now
+
 if __name__ == "__main__":
     manager = StudentManager()
     manager.load_from_file()
