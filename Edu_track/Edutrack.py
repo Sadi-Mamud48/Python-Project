@@ -123,7 +123,53 @@ class StudentManager:
         except OSError:
             print("Error: could not save the data file.")
             return False
+    def find_student(self, student_id):
+        for student in self.students:
+            if student.student_id == student_id:
+                return student
+        return None
 
+    def search_by_name(self, text):
+        text = text.lower()
+        results = []
+        for student in self.students:
+            if text in student.name.lower():
+                results.append(student)
+        return results
+
+    def add_student(self, student):
+        if student.student_id in self.id_set:
+            return False
+        self.students.append(student)
+        self.id_set.add(student.student_id)
+        self.save_to_file()
+        return True
+
+    def update_mark(self, student_id, component, new_value):
+        student = self.find_student(student_id)
+        if student is None:
+            return False
+        if component == "quiz":
+            student.quiz = float(new_value)
+        elif component == "project":
+            student.project = float(new_value)
+        elif component == "lab":
+            student.lab = float(new_value)
+        elif component == "attendance":
+            student.attendance = float(new_value)
+        else:
+            return False
+        self.save_to_file()
+        return True
+
+    def delete_student(self, student_id):
+        student = self.find_student(student_id)
+        if student is None:
+            return False
+        self.students.remove(student)
+        self.id_set.remove(student_id)
+        self.save_to_file()
+        return True
 #temporary test data till now
 
 if __name__ == "__main__":
